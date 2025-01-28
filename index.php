@@ -1,86 +1,92 @@
-<style>
-    body {
-        background-color: #f8f0f9; /* สีชมพูอ่อนพื้นหลัง */
-        font-family: 'Arial', sans-serif;
-        color: #5a3d5c; /* สีข้อความหลักที่เข้ากับโทนชมพู */
-    }
+<?php
+require('dbconnect.php');
+$sql = "SELECT * FROM employee"; //เลือกข้อมูลจากตาราง employee ออกมาแสดง
+$result = mysqli_query($con, $sql); //รันคำสั่งที่ถูกเก็บไว้ในตัวแปร $sql
 
-    .container {
-        background-color: #ffffff;
-        border-radius: 15px;
-        padding: 20px;
-        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    }
+$count = mysqli_num_rows($result); //เก็บผลที่ได้จากคำสั่ง $result เก็บไว้ในตัวแปร $count
+$order = 1; //ให้เริ่มนับแถวจากเลข 1
+?>
 
-    h1 {
-        color: #f1a7c1; /* สีชมพูอ่อนสำหรับหัวข้อ */
-        margin-bottom: 30px;
-    }
+<!doctype html>
+<html lang="en">
 
-    .table {
-        border-radius: 10px;
-    }
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    .table-dark {
-        background-color: #f1a7c1;
-        color: white;
-    }
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 
-    th, td {
-        text-align: center;
-        vertical-align: middle;
-    }
+  <title>รายชื่อพนักงานทั้งหมด</title>
+</head>
 
-    .btn {
-        border-radius: 50px;
-    }
+<body>
+  <div class="container">
+    
+    <h1 class="text-center mt-3">รายชื่อพนักงานทั้งหมด</h1>
+    
+    <form action="searchdata.php" class="form-group my-3" method="POST">
+  
+      <div class="row">
+        <div class="col-6">
+          <input type="text" placeholder="กรอกชื่อหรือนามสกุลที่ต้องการค้น" class="form-control" name="emp_data" required>
+        </div>
+        <div class="col-6">
+          <input type="submit" value="ค้นหาข้อมูลพนักงาน" class="btn btn-info">
+        </div>
+      </div>
 
-    .btn-info {
-        background-color: #f1a7c1; /* ปรับสีของปุ่มค้นหา */
-        border-color: #f1a7c1;
-    }
+    </form>
+    <table class="table table-bordered">
+      <thead class="table-dark">
+        <tr>
+          <th>ลำดับที่</th>
+          <th>คำนำหน้า</th>
+          <th>ชื่อ</th>
+          <th>สกุล</th>
+          <th>วันเกิด</th>
+          <th>ที่อยู่ปัจจุบัน</th>
+          <th>ทักษะความสามารถ</th>
+          <th>เบอร์โทรศัพท์</th>
+          <th>แก้ไขข้อมูล</th>
+          <th>ลบข้อมูล</th>
+          
 
-    .btn-info:hover {
-        background-color: #f17c9e;
-        border-color: #f17c9e;
-    }
+        </tr>
+      </thead>
+      <tbody>
+        <?php while ($row = mysqli_fetch_assoc($result)) {
+        ?>
+          <tr>
+            <td><?php echo $order++; ?></td>
+            <td><?php echo $row["emp_title"]; ?></td>
+            <td><?php echo $row["emp_name"]; ?></td>
+            <td><?php echo $row["emp_surname"]; ?></td>
+            <td><?php echo $row["emp_birthday"]; ?></td>
+            <td><?php echo $row["emp_adr"]; ?></td>
+            <td><?php echo $row["emp_skill"]; ?></td>
+            <td><?php echo $row["emp_tel"]; ?></td>
+            
+            <td><a href="editformdata.php?emp_id=<?php echo $row["emp_id"] ?>" class="btn btn-success">แก้ไข</a></td>
+            <td><a href="deletedata.php?emp_id=<?php echo $row["emp_id"] ?>" class="btn btn-danger"onclick="return confirm('ยืนยันการลบข้อมูล')">ลบ</a></td>
+            
 
-    .btn-success {
-        background-color: #c17cf1;
-        border-color: #c17cf1;
-    }
 
-    .btn-success:hover {
-        background-color: #a15de1;
-        border-color: #a15de1;
-    }
+          </tr>
+        <?php } ?>
+      </tbody>
+    </table>
 
-    .btn-danger {
-        background-color: #f18f8f;
-        border-color: #f18f8f;
-    }
+    <a href="insertform.php" class="btn btn-success">กรอกข้อมูลพนักงาน</a>
 
-    .btn-danger:hover {
-        background-color: #f16565;
-        border-color: #f16565;
-    }
+  </div>
 
-    .form-group input {
-        border-radius: 20px;
-    }
 
-    .form-group input[type="text"] {
-        padding: 10px;
-        border: 1px solid #f1a7c1;
-        background-color: #fce6e9;
-    }
+ 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
 
-    .form-group input[type="text"]:focus {
-        border-color: #f17c9e;
-        box-shadow: 0 0 5px rgba(241, 124, 158, 0.7);
-    }
+  
+</body>
 
-    .row {
-        margin-bottom: 15px;
-    }
-</style>
+</html>
