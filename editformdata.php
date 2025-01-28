@@ -20,19 +20,18 @@ $row = mysqli_fetch_assoc($result);
   
   <style>
     body {
-        background: linear-gradient(135deg, #a3aaff, #f9f7fc);
+        background: linear-gradient(135deg, #f8d3e1, #f9f7fc); /* โทนสีชมพูอ่อน */
         font-family: 'Arial', sans-serif;
     }
 
     .form-signin {
         width: 100%;
-        max-width: 600px;
-        padding: 25px;
+        max-width: 650px;
+        padding: 30px;
         margin: auto;
         background-color: #ffffff;
-        border: 2px solid #ddd;
         border-radius: 15px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         overflow-x: hidden;
     }
 
@@ -42,12 +41,19 @@ $row = mysqli_fetch_assoc($result);
 
     .form-group label {
         font-weight: bold;
+        color: #e91e63; /* สีชมพูเข้ม */
     }
 
     .form-control {
-        border-radius: 5px;
-        padding: 10px;
+        border-radius: 8px;
+        padding: 12px;
         font-size: 16px;
+        border: 1px solid #f1c1d1; /* สีกรอบอ่อนๆ */
+    }
+
+    .form-control:focus {
+        border-color: #e91e63; /* สีชมพูเมื่อโฟกัส */
+        box-shadow: 0 0 5px rgba(233, 30, 99, 0.5);
     }
 
     .btn-custom {
@@ -55,13 +61,40 @@ $row = mysqli_fetch_assoc($result);
         padding: 12px;
         font-size: 16px;
         border-radius: 8px;
-        background-color: #007bff;
+        background-color: #e91e63;
         color: white;
         font-weight: bold;
+        border: none;
     }
 
     .btn-custom:hover {
-        background-color: #0056b3;
+        background-color: #d81b60;
+    }
+
+    .btn-reset {
+        padding: 12px 20px;
+        font-size: 16px;
+        border-radius: 8px;
+        background-color: #f44336;
+        color: white;
+        border: none;
+    }
+
+    .btn-reset:hover {
+        background-color: #d32f2f;
+    }
+
+    .btn-back {
+        padding: 12px 20px;
+        font-size: 16px;
+        border-radius: 8px;
+        background-color: #6c757d;
+        color: white;
+        text-decoration: none;
+    }
+
+    .btn-back:hover {
+        background-color: #5a6268;
     }
 
     .container {
@@ -74,33 +107,7 @@ $row = mysqli_fetch_assoc($result);
     h2 {
         font-family: 'Arial', sans-serif;
         font-weight: bold;
-        color: rgb(51, 16, 96);
-    }
-
-    .btn-reset, .btn-back {
-        padding: 12px 20px;
-        font-size: 16px;
-        border-radius: 8px;
-    }
-
-    .btn-reset {
-        background-color: #f44336;
-        color: white;
-        border: none;
-    }
-
-    .btn-reset:hover {
-        background-color: #d32f2f;
-    }
-
-    .btn-back {
-        background-color: #6c757d;
-        color: white;
-        text-decoration: none;
-    }
-
-    .btn-back:hover {
-        background-color: #5a6268;
+        color: #e91e63; /* สีชมพู */
     }
 
   </style>
@@ -171,8 +178,6 @@ $row = mysqli_fetch_assoc($result);
           <option value="u" <?php if ($row["emp_level"] == "u") { echo "SELECTED"; } ?>>ผู้ใช้งาน</option>
         </select>
       </div>
-
-      
 
       <div class="my-3">
         <input type="submit" value="แก้ไขข้อมูล" class="btn btn-custom">
